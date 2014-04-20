@@ -1,0 +1,37 @@
+<MekongBridge>
+<planning_option sector="Urban Planning">
+	<descriptor>1: North 22km away</descriptor>
+	<cost_category>medium </cost_category>
+	<env_impacts>nation wide </env_impacts><supported_by></supported_by>
+	<econ_impacts>medium</econ_impacts>
+	
+</planning_option>
+<planning_option sector="Urban Planning">
+	<descriptor>2: Near expanding town centres</descriptor>
+	<cost_category>low </cost_category>
+	<env_impacts>few negative impacts</env_impacts><supported_by></supported_by>
+	<econ_impacts>high positive impacts</econ_impacts>
+	
+</planning_option>
+<planning_option sector="Urban Planning">
+	<descriptor>3: Near existing town centres</descriptor>
+	<cost_category>low </cost_category>
+	<env_impacts>no negative impacts</env_impacts><supported_by></supported_by>
+	<econ_impacts>high positive impacts </econ_impacts>
+	
+</planning_option>
+<planning_option sector="Urban Planning">
+	<descriptor>4: Far south from Savannakhet</descriptor>
+	<cost_category>low </cost_category>
+	<env_impacts>high negative impacts </env_impacts><supported_by></supported_by>
+	<econ_impacts>positive for Thai residents</econ_impacts>
+	
+</planning_option>
+<planning_option sector="Urban Planning">
+	<descriptor>5: Far north 90km away</descriptor>
+	<cost_category>medium </cost_category>
+	<env_impacts>high negative impacts </env_impacts><supported_by></supported_by>
+	<econ_impacts>moderate</econ_impacts>
+</planning_option>	
+
+</MekongBridge>

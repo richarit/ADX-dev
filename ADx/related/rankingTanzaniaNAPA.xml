@@ -1,0 +1,146 @@
+<TanzaniaNAPA>
+<adaptation_option sector="Agriculture">
+	<descriptor>alternative farming systems </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>nation wide </scale><supported_by></supported_by>
+	<goals>maintain crop and livestock yields </goals>
+	<rank>2 </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities </notes>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>promote indiginous knowledge </descriptor>
+	<cost_category>low </cost_category>
+	<scale>nation wide </scale>
+	<supported_by></supported_by><goals>maintain crop and livestock yields </goals>
+	<rank>11 </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities </notes>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>change planting dates </descriptor>
+	<cost_category>low </cost_category>
+	<scale>some agroecological zones </scale><supported_by></supported_by>
+	<goals>maintain crop yields reduced by high temperatures </goals>
+	<rank>unranked </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities </notes>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>increase irrigation </descriptor>
+	<cost_category>low </cost_category>
+	<scale>selected areas </scale>
+	<supported_by></supported_by><goals>increase maize yields </goals>
+	<rank>1 </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities </notes>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>increase irrigationII</descriptor>
+	<cost_category>medium </cost_category>
+	<scale>selected areas </scale><supported_by></supported_by>
+	<goals>increase maize yields </goals>
+	<rank>unranked </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities </notes>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>introduce drip irrigation </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>selected areas </scale><supported_by></supported_by>
+	<goals>increase crop yields </goals>
+	<rank>unranked </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities </notes>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>switch to short-season, drought tolerant sorghum and maize </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>selected areas  </scale>
+	<supported_by></supported_by><goals>reduce reliance on maize and reduce demand for water </goals>
+	<rank>unranked </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities </notes>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>shift crop production to more appropriate agroecological zones </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>selected areas </scale><supported_by></supported_by>
+	<goals>improve crop yields </goals>
+	<rank>unranked </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities  </notes>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>change crop rotation practices </descriptor>
+	<cost_category>low </cost_category>
+	<scale>selected areas </scale>
+	<supported_by></supported_by><goals>improve crop yields and reduce soil degradation </goals>
+	<rank>unranked </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities  </notes>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>integrated crop and pest management </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>nationally  </scale>
+	<supported_by> </supported_by>
+	<goals>improve crop yields and reduce costs of inputs </goals>
+	<rank>9 </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities</notes>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>make better use of climate and weather data, forecasts and other tools </descriptor>
+	<cost_category>low </cost_category>
+	<scale>nation wide  </scale> 
+	<supported_by> </supported_by>
+	<goals>improve crop yields, income and reduce risks of crop failure </goals>
+	<rank>3 </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities</notes>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>create awareness on the negative effects of climate change </descriptor>
+	<cost_category>low </cost_category>
+	<scale>nation wide  </scale>
+	<supported_by> </supported_by>
+	<goals>reduce risks of crop failure, improve decision making </goals>
+	<rank>4 </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities</notes>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>use sustainable water management   </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>nation wide </scale>
+	<supported_by> </supported_by>
+	<goals>improve yields, boost food crop production </goals>
+	<rank>unranked </rank>
+	<notes>ranks are for all agriculture and livestock potential adaptation activities - total 11 ranked out of 25 activities </notes>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>strengthen early warning system   </descriptor>
+	<cost_category>medium - high </cost_category>
+	<scale>nation wide  </scale>
+	<supported_by>government, donors </supported_by>
+	<goals>improve yields, boost food crop production, reduce damage to crops </goals>
+	<rank>unranked </rank>
+	<notes></notes>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>insist on annual and short term crops </descriptor>
+	<cost_category>medium - high </cost_category>
+	<scale>nation wide </scale>
+	<supported_by>government, donors </supported_by>
+	<goals>not sure why </goals>
+	<rank>unranked </rank>
+	<notes></notes>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>change land use patterns </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>nation wide </scale>
+	<supported_by>government, donors </supported_by>
+	<goals>optimise land use </goals>
+	<rank>unranked </rank>
+	<notes>this option appeared under the ranked project activities but did not appear originally under the sectoro potential adaptation activities </notes>
+</adaptation_option>
+</TanzaniaNAPA>

@@ -1,0 +1,106 @@
+<TanzaniaNAPA>
+<adaptation_option sector="Agriculture">
+	<descriptor>alternative farming systems </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>nation wide </scale><supported_by></supported_by>
+	<goals>maintain crop and livestock yields </goals>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>promote indiginous knowledge </descriptor>
+	<cost_category>low </cost_category>
+	<scale>nation wide </scale><supported_by></supported_by>
+	<goals>maintain crop and livestock yields </goals>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>change planting dates </descriptor>
+	<cost_category>low </cost_category>
+	<scale>some agroecological zones </scale><supported_by></supported_by>
+	<goals>maintain crop yields reduced by high temperatures </goals>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>increase irrigation </descriptor>
+	<cost_category>low </cost_category>
+	<scale>selected areas </scale><supported_by></supported_by>
+	<goals>increase maize yields </goals>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>increase irrigationII</descriptor>
+	<cost_category>medium </cost_category>
+	<scale>selected areas </scale><supported_by></supported_by>
+	<goals>increase maize yields </goals>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>introduce drip irrigation </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>selected areas </scale>
+	<supported_by></supported_by><goals>increase crop yields </goals>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>switch to short-season, drought tolerant sorghum and maize </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>selected areas  </scale>
+	<supported_by></supported_by><goals>reduce reliance on maize and reduce demand for water </goals>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>shift crop production to more appropriate agroecological zones </descriptor><cost_category></cost_category>
+	<scale>selected areas </scale>
+	<supported_by></supported_by><goals>improve crop yields </goals>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>change crop rotation practices </descriptor>
+	<cost_category>low </cost_category>
+	<scale>selected areas </scale>
+	<supported_by></supported_by><goals>improve crop yields and reduce soil degradation </goals>
+	
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>integrated crop and pest management </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>nationally  </scale>
+	<supported_by> </supported_by>
+	<goals>improve crop yields and reduce costs of inputs </goals>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>make better use of climate and weather data, forecasts and other tools </descriptor>
+	<cost_category>low </cost_category>
+	<scale>nation wide  </scale> 
+	<supported_by> </supported_by>
+	<goals>improve crop yields, income and reduce risks of crop failure </goals>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>create awareness on the negative effects of climate change </descriptor>
+	<cost_category>low </cost_category>
+	<scale>nation wide  </scale>
+	<supported_by> </supported_by>
+	<goals>reduce risks of crop failure, improve decision making </goals>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>use sustainable water management   </descriptor>
+	<cost_category>medium </cost_category>
+	<scale>nation wide </scale>
+	<supported_by> </supported_by>
+	<goals>improve yields, boost food crop production </goals>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>strengthen early warning system   </descriptor>
+	<cost_category>medium - high </cost_category>
+	<scale>nation wide  </scale>
+	<supported_by>government, donors </supported_by>
+	<goals>improve yields, boost food crop production, reduce damage to crops </goals>
+</adaptation_option>
+<adaptation_option sector="Agriculture">
+	<descriptor>insist on annual and short term crops </descriptor>
+	<cost_category>medium - high </cost_category>
+	<scale>nation wide </scale>
+	<supported_by>government, donors </supported_by>
+	<goals>not sure why </goals>
+</adaptation_option>
+</TanzaniaNAPA>
