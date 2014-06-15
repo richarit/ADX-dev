@@ -1,0 +1,98 @@
+<Maputo_City_Adaptation_Options>
+<adaptation_option>
+<descriptor>Improved drainage or storm water system</descriptor>
+<Goals>To reduce flooding and storm water run off on roads and urban infrastructure</Goals>
+<Sector>Urban infrastructure and planning </Sector>
+<Cost_category>Medium</Cost_category>
+<Implementing_agency>Maputo municipality </Implementing_agency>
+<Scale>Local</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Building coastline protection dikes</descriptor>
+<Goals>To create a protective barrier against sea level rise, salt water intrusion and flooding </Goals>
+<Sector>Urban infrastructure and planning </Sector>
+<Cost_category>High</Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale>Local and cross scale</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Development and implementation of adaptation and mitigation urban plans</descriptor>
+<Goals>To set up fall back measures for construction of roads and urban infrastructure </Goals>
+<Sector>Urban infrastructure and planning </Sector>
+<Cost_category>Medium</Cost_category>
+<Implementing_agency>Maputo municipality </Implementing_agency>
+<Scale>local</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Building environmental sustainable social housing</descriptor>
+<Goals>To minimize damage due to storm surges, flooding and minimize water borne diseases </Goals>
+<Sector>Housing and building codes</Sector>
+<Cost_category>High</Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale>Local and cross scale</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Development and enforcement of building codes that provide for resistant to natural disasters</descriptor>
+<Goals>To minimize damage due to storm surges, flooding and minimize water borne diseases </Goals>
+<Sector>Housing and building codes</Sector>
+<Cost_category>Medium</Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale>Local</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Sustainable use and supply of water resources</descriptor>
+<Goals>To minimize water borne diseases and water salinity </Goals>
+<Sector>Water, Sanitation and health </Sector>
+<Cost_category>Medium</Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale>Local and cross scale</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Provision of basic services to the urban poor</descriptor>
+<Goals>To minimize water borne diseases and water salinity </Goals>
+<Sector>Water, Sanitation and health </Sector>
+<Cost_category>Medium</Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale>Local</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Health education and promotion</descriptor>
+<Goals>To create awareness on impacts of water-borne disease to health due to CC</Goals>
+<Sector>Water, Sanitation and health </Sector>
+<Cost_category>Low</Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale>Local and cross scale</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Improved solid waste management</descriptor>
+<Goals>To improved water drainage and prevent communicable diseases</Goals>
+<Sector>Urban env. quality and green areas</Sector>
+<Cost_category>Low</Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale>Local</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Support of urban agriculture development</descriptor>
+<Goals>To improve urban health and livelihood for citizens</Goals>
+<Sector>Urban env. quality and green areas</Sector>
+<Cost_category>Low</Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale>Local</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Preservation of green areas, wetlands and coastal mangroves</descriptor>
+<Goals>To protect wetlands and mangroves against storm surge and flooding</Goals>
+<Sector>Urban env. quality and green areas</Sector>
+<Cost_category>Medium</Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale>Local and cross scale</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Installation of ecological waste treatment system</descriptor>
+<Goals>To improve urban health for citizens</Goals>
+<Sector>Urban env. quality and green areas</Sector>
+<Cost_category>Medium</Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale>Local</Scale>
+</adaptation_option>
+</Maputo_City_Adaptation_Options>

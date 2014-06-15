@@ -1,0 +1,13 @@
+IMPROVEMENTS in 2-2
+• added back button on voting engine
+• added load and help menus
+∘ select a file/case from the load menu - DONE
+∘ help menu contains option to open the userguide (in pdf reader)
+•  debugging
+∘ the window close button on the preview browser actually closes the application instead of just the active window - 
+∘ message about having to load the xml using the chooser instead of error
+• improve instruction text  of shell
+• improve loading/file choosing functionality
+∘ ok button  is disabled if file hasn't been loaded 
+∘ loading warning message on bad format 
+• unit test the votingCalculation method in the Poll class 

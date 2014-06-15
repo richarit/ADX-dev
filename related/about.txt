@@ -1,0 +1,6 @@
+﻿The core idea of the ADx is to investigate the possibility of comparison of methods for adaptation decision-making, and the central argument is that applying multiple methods to a given set of adaptation options and comparing their outputs may provide a more robust assessment.
+The ADx concept therefore aims to:
+support improved understanding of - and communication about - the conditions of applicability of different adaptation decision-making methods
+provide guidance on - and a tool for - selecting from a wide range of decision-making methods 
+provide implementations of decision-making methods that could be used in adaptation: those which are based on integration with the best available climate information, and which best suit the needs of adaption researchers, analysts and practitioners
+facilitate comparison of the outputs of several decision methods applied to a given set of adaptation options, strategies or measures
