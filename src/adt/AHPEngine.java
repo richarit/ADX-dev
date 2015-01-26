@@ -65,6 +65,7 @@ import org.jdom.output.XMLOutputter;
 
 import shell.ADxFrame;
 import shell.InputXMLModel;
+import vote.Poll;
 import vote.Vote;
 import shell.AOListModel;
 
@@ -139,7 +140,7 @@ public class AHPEngine extends JFrame implements ActionListener{
 	//ArrayList<String> criteriaStrings = new  ArrayList <String>();
 	
 	Container aoContent;
-	Document doc;
+	// Document doc;
 	Element root;
 	// define options (same as those contained in xml file ?)
 	List <Element> all_options; 
@@ -251,7 +252,7 @@ public class AHPEngine extends JFrame implements ActionListener{
 		// arguments are the level and the pair?
 		firstInput();
 	}
-	
+	// add doc argument
 	public AHPEngine(InputXMLModel ixm, ADxFrame adx){
 		super("Java Analytic Hierarchy Process");
 	    
@@ -262,13 +263,18 @@ public class AHPEngine extends JFrame implements ActionListener{
 		}
 	      });
 		
-	    //this.h=h;
-		//this.h = h;
+	    this.ixm = ixm;
+	   
 		this.adxFrame = adx;
-		this.ixm = ixm;
+		
 		// set the length variable (overall number of options)
-		length = ixm.getRowCount();
+		// length = ixm.getRowCount();
+		all_options = ixm.getAll_options(); 
+		length = all_options.size();
+		
 		System.out.println("number of options in full set: " + length);
+		//System.out.println("number of columns: " + ixm.getColumnCount());
+		
 		// JAHP constructor code
 	
 
@@ -282,10 +288,9 @@ public class AHPEngine extends JFrame implements ActionListener{
 	    imageFile1=new File(home_icons,"morge.png");
 
 		
-		// create the AOL
+		// create the AOL - this is for filtering options for AHP
 		aol = new AOListModel(ixm);
-		
-		// this will be used to make Jlist corresponding to the AO model, descriptors column
+		// make Jlist corresponding to the descriptors column
 		aol.setColumnOfModel(0);
 		
 		uniqueID=0;
@@ -313,6 +318,11 @@ public class AHPEngine extends JFrame implements ActionListener{
 		
 		aoContent = getContentPane();
 		aoContent.removeAll();
+		
+		// there is quite a lot of code in RankingEngine not in AHPEngine constructor
+		// create vote object to hold rank numbers for the current vote and initialise with blank strings
+	    h = new Hierarchy();	  
+	    h.setAdaptationOptionsModel(ixm);
 		
 		// finally, call the show method with each pair of options / criteria to compare
 		// arguments are the level and the pair?
@@ -635,7 +645,7 @@ public class AHPEngine extends JFrame implements ActionListener{
 		JPanel top = new JPanel();
 		top.setLayout(new BoxLayout(top, BoxLayout.PAGE_AXIS));
 		top.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-		JLabel instr = new JLabel("AHP goal: enter text and then press ENTER");
+		JLabel instr = new JLabel("Set AHP goal; then press ENTER");
 		top.add(instr);
 		instr.setToolTipText("Following hierarchical ordering (goals->criteria->alternatives) decision goal is entered first. It can be edited later.");
 
@@ -1155,6 +1165,9 @@ public class AHPEngine extends JFrame implements ActionListener{
 		   	  		// construct a Hierarchy using null hierarchy
 		   	  		OwnTest ot = new OwnTest();
 		   	  		h = ot.nullHierarchy(goalString);
+		   	  	    
+		   	  		// create AO model from ixm
+		   	  		h.setAdaptationOptionsModel(ixm);
 		   	  
 		   	  		for (int i : listIndices){
 		   	  			String elem =
@@ -1569,26 +1582,8 @@ public class AHPEngine extends JFrame implements ActionListener{
 	    setVisible(false);
 	    adxFrame.AHPResult(getHierarchy());
 	}
-	/*public void colPicker(int i){
-		int len = values().length;
-		int number = (int) Math.floor (i/ len);
-		return Color.cyan;
-		//if(number == VoterCol.valueOf("RED").hashCode()) return Color.RED;
-		//else return Color.cyan;
 	
-		
-	}*/
 	
-	// 1st placed option gets points equal to the number of votes entered in the combo box
-	// Other ranked options get uniformly decreasing points
-/*
-	public void setAwardsByCombo(){
-		awards= new Long[ranks.intValue()]; 
-		for (int i=0;i<ranks;i++){
-			awards[i]= ranks-i;
-		}
-	}
-	*/
 	/**
 	   * <code>main</code> method to test this class.
 	   * @param Criterium :  command line

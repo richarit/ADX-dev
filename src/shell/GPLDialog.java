@@ -54,34 +54,34 @@ import java.awt.Graphics2D;
 
 public class GPLDialog extends JDialog {
 	
+	private InputStream is;
+	private InputStream GPLis;
+	private String reloc_GPL;
+	private String reloc_icon;
+	
 	// constructor
-	public GPLDialog (JFrame frame,File file_icon,File file_GPL) throws IOException {
+	public GPLDialog (JFrame frame,String fname_icon, String fname_GPL) throws IOException {
 		super(frame, "About..", true);
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		
 		// You cannot use File (or FileInputStream) to reference something from within a jarfile.
 		// See getResourceAsStream and the ImageIO methods that read from an InputStream 
-		boolean dev = false;   // switch between development and jar version
-		InputStream mis;
-		InputStream GPLis;
+		//boolean dev = false;   // switch between development and jar version
 		
 		
-		if (dev) {
-			//InputStream mis = new FileInputStream(file_icon.getAbsolutePath());
-		    mis = new FileInputStream(file_icon.getPath());
-		    
-			//InputStream GPLis = new FileInputStream(file_GPL.getAbsolutePath());
-			GPLis = new FileInputStream(file_GPL.getPath());
-			
-		}
-		else {
-			// Obtaining an ImageInputStream given an input source in the form of a File or InputStream
-			mis = getClass().getResourceAsStream(file_icon.getPath());
-			
-			GPLis = getClass().getResourceAsStream(file_GPL.getPath());
-		}
-		ImageInputStream iis = ImageIO.createImageInputStream(mis);
+		// path = "/home/richard/workspace/ADx/related/";  // absolute path for adx-dev
+		//reloc = new String("related/" + fname);
+		reloc_GPL = new String("related" + File.separator + fname_GPL); // relative path used by getResourceAsStream
+		reloc_icon = new String("related" + File.separator + fname_icon); // 
+
+		// Obtaining an ImageInputStream given an input source in the form of a File or InputStream
+		is = this.getClass().getResourceAsStream(reloc_icon);
+		GPLis = this.getClass().getResourceAsStream(reloc_GPL);
+		
+		if (is==null) System.out.println("is is null");
+		
+		ImageInputStream iis = ImageIO.createImageInputStream(is);
 		ImageInputStream GPLiis = ImageIO.createImageInputStream(GPLis);
 		
 		// Once a source has been obtained, it may be attached to the reader by calling

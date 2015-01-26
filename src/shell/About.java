@@ -1,8 +1,9 @@
 // Graphical User Interface
-package gui;
+package shell;
 
 //imports
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;          //This is the final package name.
 //import com.sun.java.swing.*; //Used by JDK 1.2 Beta 4 and all
 //Swing releases before Swing 1.1 Beta 3.
@@ -51,6 +52,11 @@ public class About extends JDialog {
    * @param file_mail which contain mail icon
    * @param imageFile1 author1
    */
+	//private String reloc_GPL;
+	private String reloc_icon;
+	private String reloc_elep;
+	private String reloc_sei;
+	
   public About(JFrame frame,File file_mail,File imageFile1) throws IOException {
 		super(frame, "About..", true);
 
@@ -94,28 +100,72 @@ public class About extends JDialog {
 		this.pack();
 	}
   // overloaded constructor. With this one the label can be set
-  public About(JFrame frame,File file_mail,File imageFile1, String l2string) {//throws IOException  {
+  public About(JFrame frame,String fname_icon,String fname_elep, String fname_sei, BufferedReader br) { //String l2string) {//throws IOException  {
 		super(frame, "About..", true);
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		//Image image1 = toolkit.getImage(image1ageFile1.toString());
 
 		//System.err.println(file_mail.toString());
-		ImageIcon icon = new ImageIcon(file_mail.toString());  //file 0 (weadapt)
+		reloc_elep = new String("related" + File.separator + fname_elep); // relative path used by getResourceAsStream
+		reloc_icon = new String("related" + File.separator + fname_icon); // 
+		reloc_sei = new String("related" + File.separator + fname_sei); // relative path used by getResourceAsStream
 		
+		// work with inputstreams needed for JAR, or imageinputstreams in this case
+		InputStream elep_is = this.getClass().getResourceAsStream(reloc_elep);
+		InputStream icon_is = this.getClass().getResourceAsStream(reloc_icon);
+		InputStream sei_is  = this.getClass().getResourceAsStream(reloc_sei);
 		JPanel panel = new JPanel(new BorderLayout(20,20));
-		//System.err.println(imageFile1.toString());
-		ImageIcon photo =  new ImageIcon(imageFile1.toString()); // file 1 - elephant
+		
+		try {
+			ImageInputStream elep_iis = ImageIO.createImageInputStream(elep_is);
+			ImageInputStream icon_iis = ImageIO.createImageInputStream(icon_is);
+			//ImageInputStream sei_iis = ImageIO.createImageInputStream(sei_is);
+			
+			//ImageIcon icon = new ImageIcon(reloc_icon);  //file 0 (weadapt)
+		
+			StringBuffer sb = new StringBuffer();
+			String line;
+			while((line=br.readLine()) !=null) {
+				sb.append(line);
+			}
+			br.close();
 
-		JLabel photol= new JLabel(photo);
-		//JPanel label =  new JPanel(new BorderLayout(20,20));
-		JLabel label2 = new JLabel(l2string,icon, JLabel.CENTER); //file 0
+			BufferedImage elepimg = ImageIO.read(elep_iis);
+			BufferedImage weADAPTimg = ImageIO.read(icon_iis);
+			// BufferedImage seiimg = ImageIO.read(sei_iis);
+			// use prepared image for the about box - this is the GPL info
 
-		//label1.setBorder(new EmptyBorder(5,5,5,5));
-		//g.drawImage(icon, 0, 0, null);
+			ImageIcon elepII = new ImageIcon(elepimg) ;
+			ImageIcon weADAPTII = new ImageIcon(weADAPTimg) ;
+			ImageIcon weADAPT_scaled = scale(weADAPTII.getImage(),0.5);
+			//ImageIcon seiII = new ImageIcon(seiimg) ;
+			JLabel lel = new JLabel(scale(elepII.getImage(), 0.2));
+			
+			String html1 = "<html><body style='width: ";
+			String html2 = "px'>";
 
-		panel.add(photol,BorderLayout.NORTH);
-		panel.add(label2,BorderLayout.CENTER); //file 0
+			
+			//JLabel lwe = new JLabel(html1+"200"+html2+sb.toString(),weADAPT_scaled, JLabel.CENTER); //file 0
+			JLabel lwe = new JLabel(html1+"300"+html2+sb.toString(), JLabel.CENTER); //file 0
+
+			//label1.setBorder(new EmptyBorder(5,5,5,5));
+			//g.drawImage(icon, 0, 0, null);
+
+			panel.add(lel,BorderLayout.NORTH);
+			panel.add(lwe,BorderLayout.CENTER); //file 0
+		} catch (IOException ex) {
+	    
+			// no application registered for PDFs
+	    	JOptionPane.showMessageDialog(panel, "There was a loading error with the file:\n"
+					+ "user-guide.pdf" + "\n"
+					+ "It can be found at :\n"
+					+ "http://weadapt.org/knowledge-base/adaptation-decision-making/adx-user-guide",
+					"Warning Message",
+					JOptionPane.ERROR_MESSAGE);
+	    }
+			
+		
 
 		JButton ok = new JButton("OK");
 		ok.addActionListener(new ActionListener() {
@@ -127,6 +177,18 @@ public class About extends JDialog {
 		this.setContentPane(panel);
 		this.pack();
 	}
+	
+	private ImageIcon scale(Image src, double scale) {
+			//System.out.println("Entered scale method");
+	        int w = (int)(scale*src.getWidth(this));
+	        int h = (int)(scale*src.getHeight(this));
+	        int type = BufferedImage.TYPE_INT_RGB;
+	        BufferedImage dst = new BufferedImage(w, h, type);
+	        Graphics2D g2 = dst.createGraphics();
+	        g2.drawImage(src, 0, 0, w, h, this);
+	        g2.dispose();
+	        return new ImageIcon(dst);
+	    }
   /**
    * Method to close the Window 
    * @param Graphics g

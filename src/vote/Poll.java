@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
+import java.lang.Double;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -17,6 +17,7 @@ import adt.Criterium;
 import adt.PairwiseComparisonMatrix;
 
 import shell.AdaptationOptionsModel;
+import shell.InputXMLModel;
 import shell.ResultsFrame;
 import vote.Vote;
 /**
@@ -140,20 +141,12 @@ public class Poll implements Cloneable,Serializable {
 	    return true;
 	  }
 	  
-	  // this is not a setter or getter but more a creation method
-	  public void setAdaptationOptionsModel(Document doc){
-		// Model extends AbstractTableModel. It is passed the dom object and extracts the table data from that
-			
-		aoModel = new AdaptationOptionsModel(doc);
-			
-		// add two columns score (0< x <1) 
-		//and rank order gotten from Hierarchy object
-		aoModel.addColumn("score", 1.0);		
-		aoModel.addColumn("rank", 1.0);
-		
-		aoModel.addColumn("voter", 2.0);
-		aoModel.addColumn("points", 1.0);
+	 
+	  public void setAdaptationOptionsModel(InputXMLModel ixm) {
+		  aoModel = new AdaptationOptionsModel(ixm.getDocument());
+		  
 	  }
+	
 	  
 	  public AdaptationOptionsModel getAdaptationOptionsModel() {
 		  return aoModel;
@@ -169,6 +162,11 @@ public class Poll implements Cloneable,Serializable {
 	  // this is called when all the votes are in and the award mechanism has been determined
 	  public void computeVoting(){
 			
+		  	aoModel.addColumn("score", 1.0);		
+			aoModel.addColumn("rank", 1.0);
+			
+			aoModel.addColumn("voter", 2.0);
+			aoModel.addColumn("points", 1.0);
 			// initially computes this with all of the default settings
 			// configurable elements could be:
 			// -- weightings of votes according to number of people present

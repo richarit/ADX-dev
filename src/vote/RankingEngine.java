@@ -75,6 +75,8 @@ import org.jdom.output.XMLOutputter;
 import adt.Hierarchy;
 
 import shell.ADxFrame;
+import shell.AOListModel;
+import shell.InputXMLModel;
 
 //Typically connections are made from a user interface bean (the event source) to an application logic bean (the target).
 import java.beans.EventHandler;
@@ -110,15 +112,23 @@ public class RankingEngine extends JFrame implements ActionListener {
 	File default_file; //default file loaded
 	File file_mail; //mail icon
 	File file_edit; //mail icon
-	File imageFile1; //photo author
+	//File imageFile1; //photo author
+	
+	String fname_icon;
+	String fname_elep;
+	String fname_sei;
 	 
 	private int length;			// number of adaptation options
 	private int showing=0;		// current option showing
 	
 	Container aoContent;
 	//Document doc;
-	Element root;
-	List <Element> all_options; 
+	//Element root;
+	private List <Element> all_options; 
+	// Used for creating the JList
+	AOListModel aol;
+	InputXMLModel ixm;
+	
 	// This provides access to the class that creates the engine and processes the poll upon finalization 
 	ADxFrame adxFrame;	
 	
@@ -140,45 +150,46 @@ public class RankingEngine extends JFrame implements ActionListener {
 	
 	// colNames is initially set from the DTD but can be expanded in the computational stage.
 	// For a dynamic field variable better therefore to use an arraylist rather than static array
-	public ArrayList <String> colNames = new ArrayList <String> ();					// initialise colNames
-	public ArrayList <Double> columnLengths = new ArrayList <Double> ();
+	private ArrayList <String> colNames = new ArrayList <String> ();					// initialise colNames
+	private ArrayList <Double> columnLengths = new ArrayList <Double> ();
 	
 	// additional **result fields** might be: who voted for the option (voters), score and overall rank
 	// these results should be listed in a table similarly to the AdaptationOptionsModel
 	
 	// obtain the column names from the DTD
-	public void setColNames(){
-		// Access one of the DTD elements (the first element) and obtain the field names from it
-		Element first_ao = all_options.get(0);
-		// iterate through the child elements of the first option, obtain name of the element (not its value)
-		List <Element> all_elements = first_ao.getChildren();
-		
-		for (int i=0; i< all_elements.size(); i++){
-		
-			Element elt = all_elements.get(i);
-			String name = elt.getName();
-			colNames.add(name);
-		}
-	}
-	
-	public void setColLengths(){
-		// Access one of the DTD elements (the first element) and obtain the field names from it
-		Element first_ao = all_options.get(0);
-		// iterate through child elements of the first option, obtain value of element and length of string
-		for(int i=0;i<colNames.size(); i++){
-			String str = colNames.get(i);
-			if (str.length()<5)
-				columnLengths.add(1.0);	// smallest possible value
-			else{
-				if (str.length()>10)
-					columnLengths.add(2.0);	// highest possible value
-				else columnLengths.add(1.5);
-			}
-		}
-		
-	}
-	
-	public RankingEngine(Document doc, ADxFrame adx){
+//	public void setColNames(){
+//		// Access one of the DTD elements (the first element) and obtain the field names from it
+//		Element first_ao = all_options.get(0);
+//		// iterate through the child elements of the first option, obtain name of the element (not its value)
+//		List <Element> all_elements = first_ao.getChildren();
+//		
+//		for (int i=0; i< all_elements.size(); i++){
+//		
+//			Element elt = all_elements.get(i);
+//			String name = elt.getName();
+//			colNames.add(name);
+//		}
+//	}
+//	
+//	public void setColLengths(){
+//		// Access one of the DTD elements (the first element) and obtain the field names from it
+//		Element first_ao = all_options.get(0);
+//		// iterate through child elements of the first option, obtain value of element and length of string
+//		for(int i=0;i<colNames.size(); i++){
+//			String str = colNames.get(i);
+//			if (str.length()<5)
+//				columnLengths.add(1.0);	// smallest possible value
+//			else{
+//				if (str.length()>10)
+//					columnLengths.add(2.0);	// highest possible value
+//				else columnLengths.add(1.5);
+//			}
+//		}
+//		
+//	}
+//	
+	//public RankingEngine(InputXMLModel ixm, ADxFrame adx){
+   public RankingEngine(InputXMLModel ixm, ADxFrame adx){
 		
 		super("Voting Engine");
 	    
@@ -187,11 +198,8 @@ public class RankingEngine extends JFrame implements ActionListener {
 		public void windowClosing(WindowEvent e) {
 		  System.exit(0);
 		}
-
-		public int getRowCount() {
-			return all_options.size();
-		}
 	      });
+	    
 	    
 		// Make Menu
 	    JMenuBar menuBar = new JMenuBar();
@@ -218,16 +226,13 @@ public class RankingEngine extends JFrame implements ActionListener {
 	    menuBar.add(mHelp);
 	    this.setJMenuBar(menuBar);
 	    
-	  //File DATA
-	    home= new File("..");// export JAHP_PATH
-	    home_icons=new File(home,"icons");
-	    home_example=new File(home,"examples");
-	    default_file= new File(home_example,"essai.ahp");
-	    file_mail=new File(home_icons,"ComposeMail24.gif");
-	    file_edit=new File(home_icons,"Edit24.gif");
-	    imageFile1=new File(home_icons,"morge.png");
-	    
+	 
+	    this.ixm = ixm;
 		this.adxFrame = adx;
+		all_options = ixm.getAll_options(); 
+		length = all_options.size();
+		
+		// JFRAME stuff
 		// centre on the user's screen, set size to half screen size
 		// Toolkit methods interface with the native windowing system
 		// Note that this will give very different dimensions for widescreen
@@ -236,6 +241,10 @@ public class RankingEngine extends JFrame implements ActionListener {
 		Dimension screenSize = kit.getScreenSize();
 		int screenWidth = screenSize.width;
 		int screenHeight= screenSize.height;
+		setSize(screenWidth / 2, screenHeight / 2);
+		setLocation(screenWidth * 3/8, screenHeight * 3 / 8);
+		
+		aoContent = getContentPane();
 		
 		// TODO increase the size of the PAGE_START area in border layout
 		
@@ -244,52 +253,32 @@ public class RankingEngine extends JFrame implements ActionListener {
 		//Image img = kit.getImage("adxicon.jpg");
 		//setIconImage(img);
 			
-		setSize(screenWidth / 2, screenHeight / 2);
-		setLocation(screenWidth * 3/8, screenHeight * 3 / 8);
 		
-		aoContent = getContentPane();
-		//this.doc = doc;
+		
 		
 		// get the root element, and get a list of its child elements, set the size
-		root = doc.getRootElement();
-		all_options = root.getChildren();
-		length = all_options.size();
+		//root = doc.getRootElement();
+		
+		//all_options = root.getChildren();
+		
 		//setTitle("Adaptation options");
 		
 		// set col names and sizes
-		setColNames();
-		setColLengths();
+		colNames = ixm.getColumnNames();
+		columnLengths = ixm.getColumnLengths();
+		System.out.println("number of options in full set: " + ixm.getRowCount());
+		System.out.println("number of columns: " + ixm.getColumnCount());
 		
 		// create vote object to hold rank numbers for the current vote and initialise with blank strings
 	    list = new Vote(length, "");
 	    
-	    ///pollList = new ArrayList<Vote<String>>();		// create an arraylist to record all votes	
-	    poll = new Poll();	   
-	    poll.setAdaptationOptionsModel(doc);
+	    poll = new Poll();	  
+	    poll.setAdaptationOptionsModel(ixm);
+	    
 	    // default votes correlated to number of options -take the sqrt
 		double sq = Math.sqrt(length);
 		defaultvotes = (long) Math.floor(sq); 
-		
-
-		
-		for (Element option: all_options){
-			
-			// create vector row to hold data for this option
-			int i = all_options.indexOf(option);
-			
-			for (int j=0; j<colNames.size(); j++){
-				Element elt = option.getChild(colNames.get(j));
-				//System.out.println(colNames[j]);
-				//elt.getTextTrim();
-				String str_elt = elt.getTextTrim();
-				// TODO add Objects rather than strings to the table data
-				//rowdata[i].add(j,str_elt);
-			}
-			
-			// this line seems to set back to null the rowdata
-			//tm.insertRow(i, rowdata[i]);
-			//addRow(rowdata[i]);
-		}
+	
 		setupVoterID();  // add action listener to the text field
 		
 		
@@ -389,7 +378,7 @@ public class RankingEngine extends JFrame implements ActionListener {
 	  void ShowAbout() {
 		  String str = "Written by Richard Taylor richard.taylor@sei-international.org";
 
-	    (new About(this,file_mail,imageFile1,str)).setVisible(true);
+	    (new About(this,fname_icon,fname_elep, fname_sei,str)).setVisible(true);
 	  }
 
 	  void help() {

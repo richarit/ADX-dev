@@ -9,7 +9,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.AbstractTableModel;
 import org.jdom.Document;
 import org.jdom.Element;
-
 /**
  * Copyright 2012 Richard Taylor
  * 
@@ -28,30 +27,30 @@ import org.jdom.Element;
  *    You should have received a copy of the GNU General Public License
  *    along with ADx.  If not, see <http://www.gnu.org/licenses/>.
  **/
+public class InputXMLModel extends AbstractTableModel {
 
-// AdaptationOptionsModel is the model used with each engine, eg. to hold the results of the mock voting
-public class AdaptationOptionsModel extends AbstractTableModel {
-
-	Document doc;
-	Element root;
+	private Document doc;
+	private Element root;
 	private List <Element> all_options;
-	private int numOptions;
 	
 	// Table meta data
-	//public static final String ROOT_ELEMENT_TAG = "adaptation_option";
+	// public static final String ROOT_ELEMENT_TAG = "adaptation_option";
+	
+	// Table data
+	private Vector<Object> [] rowdata;
+	private int numcols;
+	//int numengines;
+	private int dataColumns;  // number of pieces of data in original doc
 	
 	// colNames is initially set from the DTD but can be expanded in the computational stage.
 	// For a dynamic field variable better therefore to use an arraylist rather than static array
 	public ArrayList <String> colNames = new ArrayList <String> ();					// initialise colNames
-	public ArrayList <Double>columnLengths = new ArrayList <Double> ();
-	
-	// TODO setRootElementTag ??
-	
+	public ArrayList <Double> columnLengths = new ArrayList <Double> ();
 	
 	// obtain the column names from the DTD
 	public void setColNames(){
 		// Access one of the DTD elements (the first element) and obtain the field names from it
-		Element first_ao = getAll_options().get(0);
+		Element first_ao = all_options.get(0);
 		// iterate through the child elements of the first option, obtain name of the element (not its value)
 		List <Element> all_elements = first_ao.getChildren();
 		
@@ -65,7 +64,7 @@ public class AdaptationOptionsModel extends AbstractTableModel {
 	
 	public void setColLengths(){
 		// Access one of the DTD elements (the first element) and obtain the field names from it
-		Element first_ao = getAll_options().get(0);
+		Element first_ao = all_options.get(0);
 		// iterate through child elements of the first option, obtain value of element and length of string
 		for(int i=0;i<colNames.size(); i++){
 			String str = colNames.get(i);
@@ -80,25 +79,60 @@ public class AdaptationOptionsModel extends AbstractTableModel {
 		
 	}
 	
-	// custom constructor where a reference is passed to the Document
-	public AdaptationOptionsModel(Document d){
+	// constructor : set the table data here
+	// TODO resolve the names of the columns from the DTD 
+	public InputXMLModel(Document d){
+				
 		doc = d;
+
 		// initialise root element and list of its child elements
 		root = doc.getRootElement();
-		setAll_options(root.getChildren());
-		numOptions = getAll_options().size();
+		all_options = root.getChildren();
+		//System.out.println(root.getName());
 		
+
+		int length = all_options.size();
+		
+		// set col names and sizes
 		setColNames();
 		setColLengths();
+		dataColumns = getColumnCount();
 		
+		// create the array of vectors
+		rowdata = new Vector [length];
+		
+		// create each vector in turn
+		for(int ini=0; ini<length; ini++){
+			rowdata[ini]=new Vector(getColumnCount());
+		}
+		
+		// this is pasted from AdaptationOptionsModel
+		for (Element option: all_options){
+			
+			// create vector row to hold data for this option
+			int i = all_options.indexOf(option);
+			
+			for (int j=0; j<colNames.size(); j++){
+				Element elt = option.getChild(colNames.get(j));
+				String str_elt = elt.getTextTrim();
+				// TODO add Objects rather than strings to the table data
+				setValueAt(str_elt,i, j);
+				//rowdata[i].add(j,str_elt);
+			}
+			
+			// this line seems to set back to null the rowdata
+			//tm.insertRow(i, rowdata[i]);
+			//addRow(rowdata[i]);
+		}
 	}
 	
-	/*
+	
+	
 	@Override
 	public void addTableModelListener(TableModelListener arg0) {
 		// TODO Auto-generated method stub
 
-	}*/
+	}
 
 	
 	public Class<?> getColumnClass(int arg0) {
@@ -106,55 +140,35 @@ public class AdaptationOptionsModel extends AbstractTableModel {
 		return getValueAt(0,arg0).getClass();
 	}
 
-	// add a new column such as "points" for the ranking exercise 
-	public void addColumn(String cname, double clen){
-		colNames.add(cname);
-		columnLengths.add(clen);
-		
-		//Element child = new Element(cname);
-		//root.addContent(child);
-		
-		//root.addContent(new Element(cname));
-		// initialise entries with empty string
-		//for(Vector<Object> row: rowdata){
-		//	row.add("");
-		//}
-		// initialise entries with empty string
-		// must get row first
-		for(Element ao: getAll_options()){
-			Element child = new Element(cname);
-			//child.setAttribute(cname,"");
-		    child.setText("");
-			ao.addContent(child);
-		}
-	
-	}
-	
+    public ArrayList <String> getColumnNames(){
+    	return colNames;
+    }
+    public ArrayList <Double> getColumnLengths(){
+    	return columnLengths;
+    }
 	public int getColumnCount() {
 		return colNames.size();
 	}
+	
+
+//	public void purgeColumns(){
+//	   System.out.println("Data Columns " + dataColumns);
+//	}
+
 
 	public String getColumnName(int arg0) {
 		return colNames.get(arg0);
 	}
 
 	public int getRowCount() {
-		return getAll_options().size();
+		return rowdata.length;
 	}
 
-	// return the value of text at the specified row and column location in the table
+	// return the value of text at the specified row and column location in the table in HTML format
 	public Object getValueAt(int r, int c) {
-		// must get row first
-		Element ao = getAll_options().get(r);
-		Element elt = ao.getChild(colNames.get(c));
-		
-		String text = elt.getTextTrim();
-		// System.out.println(text);
-		//if(text.contains("unranked"))rank = length;
-		//else rank = (int) Integer.parseInt(text);
-		//ordered_opt[rank-1]=option;
-		
+
 		// get value for column in this row
+		Object text = rowdata[r].get(c);
 		// HTML format automatically forces line wrapping
 		return "<HTML>" + text + "</HTML>";
 	}
@@ -170,40 +184,17 @@ public class AdaptationOptionsModel extends AbstractTableModel {
 		// TODO Auto-generated method stub
 
 	}*/
-	/*
-	public void addVoterID(String strv, int optionID){
-		int c;
-		for (int i = 0; i< colNames.size(); i++){
-			if (colNames.get(i)== "notes") c = i;
-		}
-		
-		
-	}*/
-	
+
 	// do not need to implement unless table's data can change
-	public void setValueAt(Object arg0, int r, int c) {
-		// TODO Auto-generated method stub
-		// must get row first
-		Element ao = getAll_options().get(r);
-		Element elt = ao.getChild(colNames.get(c));
-		String str_elt = elt.getTextTrim();
-		// TODO add Objects rather than strings to the table data
-		
-		elt.setText(arg0.toString());
-		//rowdata[r].setElementAt(str_elt + arg0.toString(), c);
-		
+	public void setValueAt(Object arg0, int arg1, int arg2) {
+		rowdata[arg1].add(arg2, arg0);
 	}
-
-	public int getNumOptions(){
-		return numOptions;
+	
+	public Document getDocument() {
+		return doc;
 	}
-
-	public void setAll_options(List <Element> all_options) {
-		this.all_options = all_options;
-	}
-
 	public List <Element> getAll_options() {
 		return all_options;
 	}
-	
+
 }

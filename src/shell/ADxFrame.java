@@ -7,7 +7,7 @@ import vote.Poll;
 import vote.RankingEngine;
 import vote.Vote;
 
-import gui.About;
+
 
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -44,10 +44,12 @@ import java.awt.event.ActionEvent;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 //Typically connections are made from a user interface bean (the event source) to an application logic bean (the target).
 import java.beans.EventHandler;
@@ -103,6 +105,7 @@ public class ADxFrame extends JFrame {
 	ADxPanel optionsText, inputPanel;
 	JPanel tickPanel, tickPanelInput, chooserPanel, enginePanel;
 	MsgPanel responsePanel, logPanel, startedPanel;
+	//MsgPanel responsePanel, startedPanel;
 	JScrollPane scrollPane;
 	
 	// Frames that need to be global because they are created/accessed in more than one method
@@ -127,7 +130,7 @@ public class ADxFrame extends JFrame {
 	ChooserButton chooserButton;
 	Loader loader; // loader to use with menu item listeners
 	
-	Document doc;  // document obtained either from the chooser or the loader
+	private Document doc;  // document obtained either from the chooser or the loader
 	
 	// chooser panel on the right
 	private JFileChooser fc = new JFileChooser();
@@ -150,10 +153,13 @@ public class ADxFrame extends JFrame {
 	boolean dev = true; // specify development or jar mode 
 	File home;          // home directory where logos, icons etc could be found 
     File home_example; 	//directory where examples could be found 
-	File file_icon; 	// weadapt icon
-	File file_icon2; 	// elephant
-	File imageFile1; 	//GPL info
+
+	File imageFile1; 	
 	File file_mail;
+	String fname_icon;  // weadapt icon
+	String fname_elep;  // elephant
+	String fname_GPL;   // GPL info
+	String fname_SEI;   // SEI icon
 	
 	public ADxFrame(){
 		
@@ -176,11 +182,16 @@ public class ADxFrame extends JFrame {
 				//URL url = new URL("jar:file:/absolute/location/of/yourJar.jar!/1.txt");
 				//InputStream is = url.openStream();
 		}
-	    //File DATA
-		file_icon =new File(home,"weADAPT.jpg");
-		file_icon2 = new File(home,"adxicon.jpg");
+	    //File DATA can not use File in JAR 
+		//file_icon =new File(home,"weADAPT.jpg");
+		//file_icon2 = new File(home,"adxicon.jpg");
 	    imageFile1 = new File(home,"GPLv2-2.png");
-
+	    
+	    // use strings instead
+	    fname_icon = "weADAPT.jpg";
+	    fname_elep = "adxicon.jpg";
+	    fname_GPL = "GPLv2-2.png";
+        fname_SEI = "SEIlogoshort.bmp";
 		
 		// initialise empty arraylist of strings of default size
 		selectedEngines = new ArrayList<String>();
@@ -320,21 +331,24 @@ public class ADxFrame extends JFrame {
 	    mHelp = new JMenu("Help");
 	    
 	    miAbout = new JMenuItem("About...  ");
-	    // this part not working
-//	    miAbout.addActionListener(new ActionListener() {
-//	    	public void actionPerformed(ActionEvent e){
+	    //String reloc = new String();  
+	    // should not use file but should use inputstream here
+	    miAbout.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e){
 //	    		//System.err.println(home.getAbsolutePath().concat("/about.txt"));
-//	    		BufferedReader reader = new BufferedReader(
-//	    			new InputStreamReader(
+	    		BufferedReader reader = new BufferedReader(
+	    			new InputStreamReader(
 //	    				//ADxFrame.class.getResourceAsStream(home.getAbsolutePath().concat("/about.txt"))
-//	    	    		    
-//	    		        ADxFrame.class.getClassLoader().getResourceAsStream(home.getAbsolutePath().concat("/about.txt"))
-//	    		    )
-//	    		);
+	    				this.getClass().getResourceAsStream("related" + File.separator + "about.txt")
+	    				// relative path used by getResourceAsStream    
+	    		    )
+	    		);
 //	    		
 //	    		//void ShowAbout() {
+	    		About ab = new About(ADxFrame.this,fname_icon,fname_elep,fname_SEI,reader);
+	    		ab.setVisible(true);
 //	    		try {
-//	    			(new About(ADxFrame.this,file_icon2,file_icon,reader.toString())).setVisible(true);
+//	    			(new About(ADxFrame.this,fname_icon,fname_elep,fname_SEI,reader.toString())).setVisible(true);
 //	    		}catch(IOException ex){
 //	    			// show error
 //    		    	JOptionPane.showMessageDialog(JPanel, "There was a loading error with the About info.\n",
@@ -344,9 +358,9 @@ public class ADxFrame extends JFrame {
 //							"Warning Message",
 //							JOptionPane.ERROR_MESSAGE);
 //	    		}
-//	    		 
-//	    	}
-//	    });
+	    		 
+	    	}
+	    });
 	    mHelp.add(miAbout);
 	    
 	    miUG = new JMenuItem("User Guide");
@@ -354,14 +368,27 @@ public class ADxFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e){
 	    		// display open user guide
 	    		if (Desktop.isDesktopSupported()) {
-	    			File myFile = new File(home,"user-guide.pdf");;
+	    			// with JAR resources, all you can get is an InputStream to the resource. 
+	    			InputStream is = this.getClass().getResourceAsStream("related" + File.separator + "user-guide.pdf");
+	    			
+	    			//File myFile = new File(home,"user-guide.pdf");;
+	    			// create a temporary file, write the PDF resource to it, and open that: 
 	    		    try {
-	    		        
+	    		    	File myFile = File.createTempFile("user-guide", ".pdf");  
+	    		        myFile.deleteOnExit();  
+	    		        OutputStream out = new FileOutputStream(myFile); 
+	    		        // write contents of a Java InputStream to an OutputStream
+	    		        byte[] buffer = new byte[1024];
+	    		        int len;
+	    		        while ((len = is.read(buffer)) != -1) {
+	    		            out.write(buffer, 0, len);
+	    		        }
 	    		        Desktop.getDesktop().open(myFile);
+	    		        
 	    		    } catch (IOException ex) {
 	    		        // no application registered for PDFs
 	    		    	JOptionPane.showMessageDialog(JPanel, "There was a loading error with the file:\n"
-								+ myFile + "\n"
+								+ "user-guide.pdf" + "\n"
 								+ "It can be found at :\n"
 								+ "http://weadapt.org/knowledge-base/adaptation-decision-making/adx-user-guide",
 								"Warning Message",
@@ -457,10 +484,11 @@ public class ADxFrame extends JFrame {
 	    //System.out.println("path=" + file_icon.getPath());
 	    //System.out.println(imageFile1.getAbsolutePath());
 	    // show a dialog frame (About...). with terms information png
-	    (new GPLDialog(this,file_icon,imageFile1)).setVisible(true);
+	    (new GPLDialog(this,fname_icon,fname_GPL)).setVisible(true);
 		
 	}
 	
+	// method called by the loader
 	public void INPUT(){
 		adxContent.removeAll();
 		
@@ -510,8 +538,30 @@ public class ADxFrame extends JFrame {
 		// ok panel at the bottom
 		JPanelInput = new JPanel();
 		JButton ok = new JButton("Ok");
-		if (chooserButton.verifyXML() || loader.verifyXML()) {ok.setEnabled(true);}  // enable if the XML was read correctly
-		else {ok.setEnabled(false); } // disable until suitable adaptation options file is created
+
+		// options were loaded either with file chooser (button) or with loader (menu)
+		if (chooserButton.verifyXML())
+		{
+			ok.setEnabled(true);               // enable if the XML was read correctly
+			fname = chooserButton.getFname();  // set the fname etc
+			File f = fc.getSelectedFile();     // filechooser is only used with the chooser button
+			loc = f.getAbsolutePath();	       // path to the working directory
+		}
+		else
+		{
+			if (loader.verifyXML())
+			{
+				ok.setEnabled(true);            // enable if the XML was read correctly
+				fname = loader.getFname();      //set the fname etc
+				loc = loader.getReloc();
+				// use inputfilestream rather than loc ??
+			}
+			else
+			{
+				ok.setEnabled(false);  // disable until suitable adaptation options file is created
+			}
+		}
+		
 		
 		// the listener should send the event thread to the next stage:  ENGINES
 		ok.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "ENGINES"));
@@ -702,7 +752,7 @@ public class ADxFrame extends JFrame {
 			crTable = new JTable(crModel);	
 			
 			adxContent.remove(enginePanel);
-			adxContent.remove(logPanel);
+			//adxContent.remove(logPanel);
 			adxContent.remove(JPanelEngines);
 		
 			// Scrollpane is invoked with an argument that refers to the table object
@@ -781,6 +831,7 @@ public class ADxFrame extends JFrame {
 	// this is called when the action event occurs on the "Close" button on the final screen
 	public void close(){
 		this.setVisible(false);
+		System.exit(0);  // exit the program
 	}
 	
 	// toggle the state of the way to select engines or methods. These methods are called by item listeners
@@ -921,8 +972,9 @@ public class ADxFrame extends JFrame {
 	}
 	
 	public void startAHP(){
-		System.out.println("Entered StartAHP method");
-		
+		System.out.println("Starting AHP method");
+		inputModel = null;
+		inputModel = new InputXMLModel(doc);  // clear the input model
 		// implementation of voting engine 
 		ae = new AHPEngine(inputModel, this);
 		//loc = path + fname;
@@ -944,8 +996,9 @@ public class ADxFrame extends JFrame {
 		
 		// implementation of voting engine 
 		// Carry out voting exercise using the adaptation options browser - RankingEngine object created here
-	
-		re = new RankingEngine(doc, this);
+		inputModel = new InputXMLModel(doc);  // clear the input model
+		re = new RankingEngine(inputModel, this);
+		// re = new RankingEngine(doc, this);
 		//loc = path + fname;
 		re.setTitle("Ranking engine  (FILE: " + loc + " )");
 		re.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -963,8 +1016,11 @@ public class ADxFrame extends JFrame {
 		AHPResults.setExplanation("Preference data");
 		
 		// TODO calculation part should be separate from the display part
-		AHPResults.setUpAHPModel();
-		AHPResults.computeAHP();
+		//AHPResults.setUpAHPModel();
+		//AHPResults.computeAHP();
+		
+		hierarchy.computeAHP();
+		AHPResults.setAdaptationOptionsModel(hierarchy.getAdaptationOptionsModel());
 		
 		// this call asks the results frame to display the table of results
 		// when the OK button is clicked, the table will be set invisible again
@@ -987,10 +1043,11 @@ public class ADxFrame extends JFrame {
 		votingResults = new ResultsFrame(re, loc, crModel, Engine.VOTING);
 		votingResults.setTitle("Results of ranking exercise");
 		votingResults.setExplanation("Data collected during participatory session");
+		
 		//votingResults.setUpVotingModel();
 		pi.computeVoting();
-		
 		votingResults.setAdaptationOptionsModel(pi.getAdaptationOptionsModel());
+		
 		//votingResults.computeVoting();
 		votingResults.tabulateDetails();
 		

@@ -3,6 +3,7 @@ package shell;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -40,6 +41,7 @@ public class Loader {
 	private StringBuffer log;
 	private Document doc;
 	private String path;	// path to the working directory
+	private String reloc; // location relative to the package of the class you are calling it from
 	private String fname;
 	//private File file;
 	private InputStream is;
@@ -61,25 +63,15 @@ public class Loader {
 		// You can learn about the current working directory the following way:
 		//System.out.println(new File(".").getAbsolutePath());
 		// You can learn about the class path the following way:
-		String classpath = System.getProperty("java.class.path");
-		System.out.println(classpath);
-		if (adxframe.dev) {
-			path = "/home/richard/workspace/ADx/related/";  // absolute path
-			System.out.println(path.concat(fname));
-			//try {
-			is = Loader.class.getResourceAsStream(path.concat(fname));
-			if (is==null) System.out.println("is is null");
-			
-			//} catch (NullPointerException ue) {
-			//	System.err.println(ue);
-				
-			//}
-			//home = new File ("/home/richard/workspace/ADx/related");  // adx-dev path
-		}
-		else {
-			///path = "//related//";
-			//is = Loader.class.getResourceAsStream(path.concat(fname));
-		}
+		//String classpath = System.getProperty("java.class.path");
+		//System.out.println(classpath);
+		
+		// path = "/home/richard/workspace/ADx/related/";  // absolute path for adx-dev
+		//reloc = new String("related/" + fname);
+		reloc = new String("related" + File.separator + fname); // relative path used by getResourceAsStream
+		//System.out.println(reloc);	
+		is = this.getClass().getResourceAsStream(reloc);
+		if (is==null) System.out.println("is is null");
 		
 		
 		
@@ -139,6 +131,13 @@ public class Loader {
 	// setter for external access
 	public void setMsg (String ma){
 		msg = ma;
+	}
+	public String getFname(){
+		return fname;
+	}
+	// return the pathname of the relatie location (relative to the package of the class you are calling it from) used in inputstream
+	public String getReloc(){
+		return reloc;
 	}
 	
 }

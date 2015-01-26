@@ -103,9 +103,9 @@ public class ResultsFrame extends JFrame {
 	AHPEngine ae;
 	String loc;			// location (path + fname) of the file selected by the chooser
 	File choice;		// and the corresponding file object
-	AdaptationOptionsModel aoModel;
+	private AdaptationOptionsModel aoModel;
 	Engine e;
-	CombinedResultsModel crModel;
+	private CombinedResultsModel crModel;
 	JTable jt;
 	
 	// top (e.g. highest ranked) options
@@ -140,7 +140,7 @@ public class ResultsFrame extends JFrame {
 		// for mock voting engine Use the file name associated with the file chooser which should be the tanzania case
 		loc = str;
 		crModel = crm;
-		//mockVoting();
+		
 	}
 	
 	public ResultsFrame(AHPEngine r, String str, CombinedResultsModel crm, Engine e){
@@ -163,7 +163,7 @@ public class ResultsFrame extends JFrame {
 		// for mock voting engine Use the file name associated with the file chooser which should be the tanzania case
 		loc = str;
 		crModel = crm;
-		//mockVoting();
+		
 	}
 
 	public void setExplanation(String str){
@@ -293,7 +293,7 @@ public class ResultsFrame extends JFrame {
 		//divide dimension of the frame by the sum of the factors
 		double total_factors = 0.0;
 		for(int i=0; i< aoModel.getColumnCount(); i++) 
-		total_factors += aoModel.columnLengths.get(i).doubleValue();
+		total_factors += aoModel.getColumnLengths().get(i).doubleValue();
 		//double unit_length = scrollPane.getWidth()/total_factors;
 		// Customise initial column widths. 
 		// Each column is represented by a TableColumn object which supplies getter and setter methods. 
@@ -303,7 +303,7 @@ public class ResultsFrame extends JFrame {
 			//int int_width = (int) Math.floor(unit_length * aoModel.columnLengths[i]);
 			//tc.setPreferredWidth(int_width);
 			
-			double db = aoModel.columnLengths.get(i).doubleValue();
+			double db = aoModel.getColumnLengths().get(i).doubleValue();
 			//System.out.println(db);
 			tc.setPreferredWidth((int)Math.round(db)*200);
 			//tc.setPreferredWidth(200);
@@ -357,280 +357,281 @@ public class ResultsFrame extends JFrame {
 		validate();
 	}
 	
-	public void setUpAHPModel(){
-		//AHPm = new AdaptationOptionsModel(doc);
-		
-		//AHPl = new AOListModel();
-		
-		try{
-			// This builds a document of whatever's in the given resource
-			SAXBuilder builder = new SAXBuilder();
-			// the argument to the builder is any url. Here it is passed the file instance
-			// (same file as opened in the browser)
-			Document doc = builder.build(loc);			
-			// tell the parser whether to validate against a Document Type Definition (DTD) during the build
-			// doc.setDocType(DocType dt = new DocType());
-			// setValidation(boolean validate)
-			// Model extends AbstractTableModel. It is passed the dom object and extracts the table data from that
-		
-			aoModel = new AdaptationOptionsModel(doc);
-			
-			// add two columns score (0< x <1) 
-			//and rank order gotten from Hierarchy object
-			aoModel.addColumn("score", 1.0);		
-			aoModel.addColumn("rank", 1.0);
-			
-		}
-		catch (IOException ioe) {
-			     System.err.println(ioe);
-		}
-		catch (JDOMException jde) {
-			     System.err.println(jde);
-		}
-	}
+//	public void setUpAHPModel(){
+//		//AHPm = new AdaptationOptionsModel(doc);
+//		
+//		//AHPl = new AOListModel();
+//		
+//		try{
+//			// This builds a document of whatever's in the given resource
+//			SAXBuilder builder = new SAXBuilder();
+//			// the argument to the builder is any url. Here it is passed the file instance
+//			// (same file as opened in the browser)
+//			Document doc = builder.build(loc);			
+//			// tell the parser whether to validate against a Document Type Definition (DTD) during the build
+//			// doc.setDocType(DocType dt = new DocType());
+//			// setValidation(boolean validate)
+//			// Model extends AbstractTableModel. It is passed the dom object and extracts the table data from that
+//		
+//			aoModel = new AdaptationOptionsModel(doc);
+//			
+//			// add two columns score (0< x <1) 
+//			//and rank order gotten from Hierarchy object
+//			aoModel.addColumn("score", 1.0);		
+//			aoModel.addColumn("rank", 1.0);
+//			
+//			
+//		}
+//		catch (IOException ioe) {
+//			     System.err.println(ioe);
+//		}
+//		catch (JDOMException jde) {
+//			     System.err.println(jde);
+//		}
+//	}
 	
 	// initialise the model with all of the required columns
 	// "addColumn" also initialises entries with empty string
-	public void setUpVotingModel(){
-		
-		try{
-			// This builds a document of whatever's in the given resource
-			SAXBuilder builder = new SAXBuilder();
-			// the argument to the builder is any url. Here it is passed the file instance
-			// (same file as opened in the browser)
-			Document doc = builder.build(loc);			
-			// tell the parser whether to validate against a Document Type Definition (DTD) during the build
-			// doc.setDocType(DocType dt = new DocType());
-			// setValidation(boolean validate)
-			// Model extends AbstractTableModel. It is passed the dom object and extracts the table data from that
-		
-			aoModel = new AdaptationOptionsModel(doc);
-		
-			aoModel.addColumn("score", 1.0);		
-			aoModel.addColumn("rank", 1.0);
-			aoModel.addColumn("voter", 2.0);
-			aoModel.addColumn("points", 1.0);
-		}
-		catch (IOException ioe) {
-			     System.err.println(ioe);
-		}
-		catch (JDOMException jde) {
-			     System.err.println(jde);
-		}
-	}
+//	public void setUpVotingModel(){
+//		
+//		try{
+//			// This builds a document of whatever's in the given resource
+//			SAXBuilder builder = new SAXBuilder();
+//			// the argument to the builder is any url. Here it is passed the file instance
+//			// (same file as opened in the browser)
+//			Document doc = builder.build(loc);			
+//			// tell the parser whether to validate against a Document Type Definition (DTD) during the build
+//			// doc.setDocType(DocType dt = new DocType());
+//			// setValidation(boolean validate)
+//			// Model extends AbstractTableModel. It is passed the dom object and extracts the table data from that
+//		
+//			aoModel = new AdaptationOptionsModel(doc);
+//		
+//			aoModel.addColumn("score", 1.0);		
+//			aoModel.addColumn("rank", 1.0);
+//			aoModel.addColumn("voter", 2.0);
+//			aoModel.addColumn("points", 1.0);
+//		}
+//		catch (IOException ioe) {
+//			     System.err.println(ioe);
+//		}
+//		catch (JDOMException jde) {
+//			     System.err.println(jde);
+//		}
+//	}
 	
 	// this is called when all the exercise has been completed
-	public void computeAHP(){
-		// iterate through alternatives in the subset
-		// extract the values for the final score (and the rank)
-		Hierarchy h = ae.getHierarchy();
-		Vector<Alternative> v = h.getAlternatives();
-		
-		List <Option> options = new ArrayList<Option> (0); // used in computing rank
-		List <Element> all_options = aoModel.getAll_options();
-		// if the name in h matches to those in the AO
-		for (Element ao: all_options){
-			int oID = all_options.indexOf(ao);
-			String dtext = ao.getChildText("descriptor");
-			
-			for (Alternative a: v){
-				int aID = v.indexOf(a);
-				// whitespace can mess up string comparison
-				// add html tags and trim whitespace before testing
-				if (new String(a.getName()).equals(new String("<HTML>" + dtext.trim() + "</HTML>"))){	
-				//if (a.getName().equals(new String ("<HTML>" + dtext + "</HTML>"))){
-					// add the new data
-					System.out.println("Found match: " + dtext);
-					// put the rank and the value in the correct columns
-					// Pi causing error
-					aoModel.setValueAt(h.Pi(aID), oID, aoModel.findColumn("score"));
-					System.out.println("set value: " + h.Pi(aID) + ", at row: " + oID);
-				
-					// build options list (used for ranking)
-					Option option = new Option();
-					option.setDescriptor(dtext);
-					option.setScore((h.Pi(aID)));
-					// now put into the correct position in the arraylist
-					int this_pos = 0;
-					for (Option other: options){
-						int oth_pos = options.indexOf(other);
-						if (option.compareWith(other)==-1)this_pos++;
-						// -1 signifies that other has a higher score, therefore increase this position
-					}
-					options.add(this_pos, option);
-				}
-			}
-		}
-		
-		
-		
-		// calculate the rank based on the score
-		// compare options and determine the winners
-		// iterate through list and attribute ranks, allowing for joint placings
-		Option this_option;
-		Option last_option= new Option();
-		last_option.setScore(0);
-		for (int i=0; i<aoModel.getNumOptions();i++){
-			Element aoe = aoModel.getAll_options().get(i);
-			// in the case it does not have a score, it does not have a rank
-			if ("".equals(aoe.getChildText("score"))){
-				aoModel.setValueAt("n.a.", i, aoModel.findColumn("rank"));
-				
-			}
-			else
-			{
-				for (int j=0; j<options.size();j++){
-					this_option = options.get(j);
-					// if there is a value and ...
-				
-					int int_rank = j+1;
-					String str_rank = new String("" + int_rank);
-					if(j!=0){
-					//if(j!=0 && last_option.getScore()!=0.0){
-						System.out.println("Last option, score = " + last_option.getScore());
-						
-						if(this_option.compareWith(last_option)==0) str_rank = last_option.getRank();
-					}
-					// TEST
-					System.out.println("This option, score = " + this_option.getScore());
-					if (this_option.getScore()==0.0) str_rank = "n.a.";
-					this_option.setRank(str_rank);
-					last_option= this_option;
-					
-					
-				}
-			}
-		}
-		
-		// finally set the text in the AO model
-		for (int i=0; i<aoModel.getNumOptions();i++){
-			//this_option = options.get(i);
-			Element te = aoModel.getAll_options().get(i);
-			// identify the correct option according to current row by its descriptor
-			String desc = te.getChildText("descriptor");			
-			for (Option option: options){
-				if(option.getDescriptor()==desc) {
-					this_option = option;
-					aoModel.setValueAt(this_option.getRank(), i, aoModel.findColumn("rank"));
-				}
-		
-			}
-		}
-		printRanks(options);
-	}
-	
-	// this is called when all the votes are in and the award mechanism has been determined
-	public void computeVoting(){
-		
-		// initially computes this with all of the default settings
-		// configurable elements could be:
-		// -- weightings of votes according to number of people present
-		// -- awards
-		List <Element> all_options = aoModel.getAll_options();
-		// Iterate through all votes, calculate points they contribute
-		// Record total points and the names of voters in the AO model
-		for (Vote<String> v: re.getPoll().getVotes()){
-		
-			for (int i=0;i<v.size();i++){
-				String vote_elt = v.get(i);
-				if(vote_elt!=""){
-					int rank = Integer.parseInt(vote_elt) - 1;	// rank must take the values 0,1,2 as array arg.
-					// obtain the existing value from the model
-					Element ao = all_options.get(i);
-					String oldtext = ao.getChildText("points");
-				
-					Long new_i;
-					if(oldtext!="")
-						new_i = Long.parseLong(oldtext) + re.awards[rank].longValue();
-					else new_i = re.awards[rank].longValue();
-					//System.out.println("rank is " + rank + ", awards " + re.awards[rank]);
-					String newtext = new_i.toString();
-					aoModel.setValueAt(newtext, i, aoModel.findColumn("points"));
-					
-					// add to the AO model in the "voter" column the name of current voter
-					String votertext = ao.getChildText("voter");
-					String newvotertext = new String();
-					
-					if(votertext!="")
-						newvotertext = new String(votertext + ", " + v.getNameString());
-					else newvotertext = v.getNameString();
-					
-					aoModel.setValueAt(newvotertext, i, aoModel.findColumn("voter"));
-				}
-			}
-		}
-		
-		// compute the score of each option according to scoring scheme
-		// e.g. total points divided by total number of voters
-		for (int i=0; i<aoModel.getNumOptions();i++){
-			// obtain the value of points from the model
-			Element ao = all_options.get(i);
-			String pointstext = ao.getChildText("points");
-			Double pod;
-			if(pointstext!="")
-				pod = Double.parseDouble(pointstext);
-			else pod = new Double(0.0);
-			Double score = pod / re.getPoll().getNb_votes();
-			//Double score = pod / re.getPoll().size();
-			// set the Double value
-			aoModel.setValueAt(score, i, aoModel.findColumn("score"));
-		}
-		
-		List <Option> options = new ArrayList<Option> (0);
-		// calculate the rank based on the score
-		// based on the above computation can compare options and determine the winners
-		for (int i=0; i<aoModel.getNumOptions();i++){
-			Option option = new Option();
-			Element ao = all_options.get(i);
-			String descriptortext = ao.getChildText("descriptor");
-			String scoretext = ao.getChildText("score");
-			option.setDescriptor(descriptortext);
-			option.setScore(Double.parseDouble(scoretext));
-			// now put into the correct position in the arraylist
-			int this_pos = 0;
-			for (Option other: options){
-				int oth_pos = options.indexOf(other);
-				if (option.compareWith(other)==-1)this_pos++;
-				// -1 signifies that other has a higher score, therefore increase this position
-			}
-			options.add(this_pos, option);
-		}
-		
-		// iterate through list and attribute ranks, allowing for joint placings
-		Option this_option;
-		Option last_option= new Option();
-		last_option.setScore(0);
-		for (int i=0; i<aoModel.getNumOptions();i++){
-			this_option = options.get(i);
-			int int_rank = i+1;
-			String str_rank = new String("" + int_rank);
-			if(i!=0){
-				if(this_option.compareWith(last_option)==0) str_rank = last_option.getRank();
-			}
-			if (this_option.getScore()==0.0) str_rank = "n.a.";
-			this_option.setRank(str_rank);
-			last_option= this_option;
-			//printRanks(options);
-		}
-		
-		// finally set the text in the AO model
-		for (int i=0; i<aoModel.getNumOptions();i++){
-			//this_option = options.get(i);
-			Element ao = all_options.get(i);
-			// identify the correct option according to current row by its descriptor
-			String desc = ao.getChildText("descriptor");			
-			for (Option option: options)
-				if(option.getDescriptor()==desc) {
-					this_option = option;
-					aoModel.setValueAt(this_option.getRank(), i, aoModel.findColumn("rank"));
-				}
-		}
-		
-		printRanks(options);
-		// TODO set up the summary model based on information in the AO model
-		// summaryModel = new SummaryModel();	
-		// show only options that score > 0.5 in tabulate summary
-	}
+//	public void computeAHP(){
+//		// iterate through alternatives in the subset
+//		// extract the values for the final score (and the rank)
+//		Hierarchy h = ae.getHierarchy();
+//		Vector<Alternative> v = h.getAlternatives();
+//		
+//		List <Option> options = new ArrayList<Option> (0); // used in computing rank
+//		List <Element> all_options = aoModel.getAll_options();
+//		// if the name in h matches to those in the AO
+//		for (Element ao: all_options){
+//			int oID = all_options.indexOf(ao);
+//			String dtext = ao.getChildText("descriptor");
+//			
+//			for (Alternative a: v){
+//				int aID = v.indexOf(a);
+//				// whitespace can mess up string comparison
+//				// add html tags and trim whitespace before testing
+//				if (new String(a.getName()).equals(new String("<HTML>" + dtext.trim() + "</HTML>"))){	
+//				//if (a.getName().equals(new String ("<HTML>" + dtext + "</HTML>"))){
+//					// add the new data
+//					System.out.println("Found match: " + dtext);
+//					// put the rank and the value in the correct columns
+//					// Pi causing error
+//					aoModel.setValueAt(h.Pi(aID), oID, aoModel.findColumn("score"));
+//					System.out.println("set value: " + h.Pi(aID) + ", at row: " + oID);
+//				
+//					// build options list (used for ranking)
+//					Option option = new Option();
+//					option.setDescriptor(dtext);
+//					option.setScore((h.Pi(aID)));
+//					// now put into the correct position in the arraylist
+//					int this_pos = 0;
+//					for (Option other: options){
+//						int oth_pos = options.indexOf(other);
+//						if (option.compareWith(other)==-1)this_pos++;
+//						// -1 signifies that other has a higher score, therefore increase this position
+//					}
+//					options.add(this_pos, option);
+//				}
+//			}
+//		}
+//		
+//		
+//		
+//		// calculate the rank based on the score
+//		// compare options and determine the winners
+//		// iterate through list and attribute ranks, allowing for joint placings
+//		Option this_option;
+//		Option last_option= new Option();
+//		last_option.setScore(0);
+//		for (int i=0; i<aoModel.getNumOptions();i++){
+//			Element aoe = aoModel.getAll_options().get(i);
+//			// in the case it does not have a score, it does not have a rank
+//			if ("".equals(aoe.getChildText("score"))){
+//				aoModel.setValueAt("n.a.", i, aoModel.findColumn("rank"));
+//				
+//			}
+//			else
+//			{
+//				for (int j=0; j<options.size();j++){
+//					this_option = options.get(j);
+//					// if there is a value and ...
+//				
+//					int int_rank = j+1;
+//					String str_rank = new String("" + int_rank);
+//					if(j!=0){
+//					//if(j!=0 && last_option.getScore()!=0.0){
+//						System.out.println("Last option, score = " + last_option.getScore());
+//						
+//						if(this_option.compareWith(last_option)==0) str_rank = last_option.getRank();
+//					}
+//					// TEST
+//					System.out.println("This option, score = " + this_option.getScore());
+//					if (this_option.getScore()==0.0) str_rank = "n.a.";
+//					this_option.setRank(str_rank);
+//					last_option= this_option;
+//					
+//					
+//				}
+//			}
+//		}
+//		
+//		// finally set the text in the AO model
+//		for (int i=0; i<aoModel.getNumOptions();i++){
+//			//this_option = options.get(i);
+//			Element te = aoModel.getAll_options().get(i);
+//			// identify the correct option according to current row by its descriptor
+//			String desc = te.getChildText("descriptor");			
+//			for (Option option: options){
+//				if(option.getDescriptor()==desc) {
+//					this_option = option;
+//					aoModel.setValueAt(this_option.getRank(), i, aoModel.findColumn("rank"));
+//				}
+//		
+//			}
+//		}
+//		printRanks(options);
+//	}
+//	
+//	// this is called when all the votes are in and the award mechanism has been determined
+//	public void computeVoting(){
+//		
+//		// initially computes this with all of the default settings
+//		// configurable elements could be:
+//		// -- weightings of votes according to number of people present
+//		// -- awards
+//		List <Element> all_options = aoModel.getAll_options();
+//		// Iterate through all votes, calculate points they contribute
+//		// Record total points and the names of voters in the AO model
+//		for (Vote<String> v: re.getPoll().getVotes()){
+//		
+//			for (int i=0;i<v.size();i++){
+//				String vote_elt = v.get(i);
+//				if(vote_elt!=""){
+//					int rank = Integer.parseInt(vote_elt) - 1;	// rank must take the values 0,1,2 as array arg.
+//					// obtain the existing value from the model
+//					Element ao = all_options.get(i);
+//					String oldtext = ao.getChildText("points");
+//				
+//					Long new_i;
+//					if(oldtext!="")
+//						new_i = Long.parseLong(oldtext) + re.awards[rank].longValue();
+//					else new_i = re.awards[rank].longValue();
+//					//System.out.println("rank is " + rank + ", awards " + re.awards[rank]);
+//					String newtext = new_i.toString();
+//					aoModel.setValueAt(newtext, i, aoModel.findColumn("points"));
+//					
+//					// add to the AO model in the "voter" column the name of current voter
+//					String votertext = ao.getChildText("voter");
+//					String newvotertext = new String();
+//					
+//					if(votertext!="")
+//						newvotertext = new String(votertext + ", " + v.getNameString());
+//					else newvotertext = v.getNameString();
+//					
+//					aoModel.setValueAt(newvotertext, i, aoModel.findColumn("voter"));
+//				}
+//			}
+//		}
+//		
+//		// compute the score of each option according to scoring scheme
+//		// e.g. total points divided by total number of voters
+//		for (int i=0; i<aoModel.getNumOptions();i++){
+//			// obtain the value of points from the model
+//			Element ao = all_options.get(i);
+//			String pointstext = ao.getChildText("points");
+//			Double pod;
+//			if(pointstext!="")
+//				pod = Double.parseDouble(pointstext);
+//			else pod = new Double(0.0);
+//			Double score = pod / re.getPoll().getNb_votes();
+//			//Double score = pod / re.getPoll().size();
+//			// set the Double value
+//			aoModel.setValueAt(score, i, aoModel.findColumn("score"));
+//		}
+//		
+//		List <Option> options = new ArrayList<Option> (0);
+//		// calculate the rank based on the score
+//		// based on the above computation can compare options and determine the winners
+//		for (int i=0; i<aoModel.getNumOptions();i++){
+//			Option option = new Option();
+//			Element ao = all_options.get(i);
+//			String descriptortext = ao.getChildText("descriptor");
+//			String scoretext = ao.getChildText("score");
+//			option.setDescriptor(descriptortext);
+//			option.setScore(Double.parseDouble(scoretext));
+//			// now put into the correct position in the arraylist
+//			int this_pos = 0;
+//			for (Option other: options){
+//				int oth_pos = options.indexOf(other);
+//				if (option.compareWith(other)==-1)this_pos++;
+//				// -1 signifies that other has a higher score, therefore increase this position
+//			}
+//			options.add(this_pos, option);
+//		}
+//		
+//		// iterate through list and attribute ranks, allowing for joint placings
+//		Option this_option;
+//		Option last_option= new Option();
+//		last_option.setScore(0);
+//		for (int i=0; i<aoModel.getNumOptions();i++){
+//			this_option = options.get(i);
+//			int int_rank = i+1;
+//			String str_rank = new String("" + int_rank);
+//			if(i!=0){
+//				if(this_option.compareWith(last_option)==0) str_rank = last_option.getRank();
+//			}
+//			if (this_option.getScore()==0.0) str_rank = "n.a.";
+//			this_option.setRank(str_rank);
+//			last_option= this_option;
+//			//printRanks(options);
+//		}
+//		
+//		// finally set the text in the AO model
+//		for (int i=0; i<aoModel.getNumOptions();i++){
+//			//this_option = options.get(i);
+//			Element ao = all_options.get(i);
+//			// identify the correct option according to current row by its descriptor
+//			String desc = ao.getChildText("descriptor");			
+//			for (Option option: options)
+//				if(option.getDescriptor()==desc) {
+//					this_option = option;
+//					aoModel.setValueAt(this_option.getRank(), i, aoModel.findColumn("rank"));
+//				}
+//		}
+//		
+//		printRanks(options);
+//		// TODO set up the summary model based on information in the AO model
+//		// summaryModel = new SummaryModel();	
+//		// show only options that score > 0.5 in tabulate summary
+//	}
 			
 		
 	public void printRanks(List<Option> opts){
