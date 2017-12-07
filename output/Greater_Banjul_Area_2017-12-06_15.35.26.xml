@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Greater_Banjul_Area>
+<adaptation_option>
+<descriptor>Construction of new drains</descriptor>
+<Goals>To create passage for heavy run offs and to minimise flood risk during rain season</Goals>
+<Sector>Roads and transport sector water sectir</Sector>
+<Cost_category>Meduim</Cost_category>
+<Implementing_agency>National Disaster management Agency and Roads Authority</Implementing_agency>
+<Scale>Local</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Cleaning of existing drains</descriptor>
+<Goals>To create passage for heavy run offs and to minimise flood risk during rain season</Goals>
+<Sector>Municipal Authority</Sector>
+<Cost_category>Low</Cost_category>
+<Implementing_agency>Banjul City Council/ community members</Implementing_agency>
+<Scale>Local</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Consruction of concrete structures</descriptor>
+<Goals>To reduce infrastructural collapse during rainstorms</Goals>
+<Sector>Private/Housing sector</Sector>
+<Cost_category>High</Cost_category>
+<Implementing_agency>Banjul City Council</Implementing_agency>
+<Scale>Local</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Halt encroachment on wetlands</descriptor>
+<Goals>To protect wetlands and mangroves</Goals>
+<Sector>Forestry/Environment sector</Sector>
+<Cost_category>Low</Cost_category>
+<Implementing_agency>National Environment Agency</Implementing_agency>
+<Scale>Local and cross scale</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>Provision of treated water to community members</descriptor>
+<Goals>To reduce water salinity and also to control water borne diseases</Goals>
+<Sector>Water sector</Sector>
+<Cost_category>High</Cost_category>
+<Implementing_agency>National Water and Electricty company (NAWEC)</Implementing_agency>
+<Scale>Local and cross scale</Scale>
+</adaptation_option>
+<adaptation_option>
+<descriptor>bigger drains</descriptor>
+<Goals>more efficient drainage</Goals>
+<Sector>water abd trabsoirt</Sector>
+<Cost_category></Cost_category>
+<Implementing_agency></Implementing_agency>
+<Scale></Scale>
+</adaptation_option></Greater_Banjul_Area>

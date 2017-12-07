@@ -1,9 +1,14 @@
 package shell;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -19,6 +24,8 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 // package for document class and components
 import org.jdom.*;
@@ -126,7 +133,7 @@ public class AdaptationOptionsFrame extends JFrame {
 		
 		aoContent = getContentPane();
 		this.doc = doc;
-		
+		System.out.println(doc);
 		// get the root element, and get a list of its child elements, set the size
 		root = doc.getRootElement();
 		System.out.println(root.getName());
@@ -200,6 +207,7 @@ public class AdaptationOptionsFrame extends JFrame {
 			JLabel elt_name = new JLabel (name);
 			aoPanel.add(elt_name);
 			String text = elt.getTextTrim();
+			//System.out.println(text);
 			JLabel elt_value = new JLabel(text);
 			elt_value.setOpaque(true);
 			elt_value.setBackground(Color.WHITE);
@@ -210,18 +218,106 @@ public class AdaptationOptionsFrame extends JFrame {
 		JLabel pageLabel = new JLabel("Page " + pageno + " out of " + length);
 		JButton backButton = new JButton("<");
 		JButton nextButton = new JButton(">");
+		JButton editButton = new JButton("Edit");
+		JButton newButton = new JButton("Add Option");
+		JButton saveButton = new JButton("Save");
 		JButton closeButton = new JButton("Close");
 		backButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "BACK"));
 		nextButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "NEXT"));
+		editButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "EDIT"));
+		newButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "newAdaptationOption"));
+		saveButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "SAVE"));
 		closeButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "CLOSE"));
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(pageLabel);
 		buttonPanel.add(backButton);
 		buttonPanel.add(nextButton);
+		buttonPanel.add(editButton);
+		buttonPanel.add(newButton);
+		buttonPanel.add(saveButton);
 		buttonPanel.add(closeButton);
 		aoContent.add(buttonPanel, BorderLayout.PAGE_END);
 		validate();	
 	}
+	// show the adaptation option so that the parameter values are editable
+	// method could
+	public void editAdaptationOption(){
+		// 
+		aoContent.removeAll();
+		Element show_element = all_options.get(showing);
+		// create a new panel each time this method is called
+		JPanel aoPanel = new JPanel();
+		
+		// create a GridLayout that has two columns and as many rows as necessary.
+		aoPanel.setLayout(new GridLayout(0,2));
+		JLabel ao = new JLabel("Adaptation Option");
+		JLabel av = new JLabel(show_element.getAttributeValue("sector"));
+		aoPanel.add(ao);
+		aoPanel.add(av);
+		
+		// show the child elements of the adaptation option, with name of the element on lhs and its value on rhs
+		List <Element> all_elements = show_element.getChildren();
+		for (Element elt:all_elements){
+			String name = elt.getName();
+			JLabel elt_name = new JLabel (name);
+			aoPanel.add(elt_name);
+			String text = elt.getTextTrim();
+			JTextField elt_value = new JTextField(text); // make the text editable
+			elt_value.setOpaque(true);
+			elt_value.setBackground(Color.WHITE);
+			aoPanel.add(elt_value);
+			
+			// action once the text has been edited
+			elt_value.addFocusListener(
+				    new FocusListener() {
+				    	public void focusGained(FocusEvent e) {
+				    	}
+				        public void focusLost(FocusEvent e) {
+				            // THIS CODE IS EXECUTED WHEN RETURN IS TYPED
+				        	// elt_value.setText(elt_value.getText());	 // voterID is the JTextField
+				        	//list.setNameString(elt_value.getText()); // nameString is the stored datum
+				        	elt.setText(elt_value.getText());
+				        	System.out.println("New text: " + elt_value.getText());
+				        }
+				    }
+				);
+			
+		}
+		aoContent.add(aoPanel, BorderLayout.CENTER);
+		int pageno = showing + 1;
+		JLabel pageLabel = new JLabel("Page " + pageno + " out of " + length);
+		JButton backButton = new JButton("<");
+		JButton nextButton = new JButton(">");
+		JButton doneButton = new JButton("Done");
+		JButton closeButton = new JButton("Close");
+		backButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "BACK"));
+		nextButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "NEXT"));
+		doneButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "DONE"));
+		closeButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "CLOSE"));
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.add(pageLabel);
+		buttonPanel.add(backButton);
+		buttonPanel.add(nextButton);
+		buttonPanel.add(doneButton);
+		buttonPanel.add(closeButton);
+		aoContent.add(buttonPanel, BorderLayout.PAGE_END);
+		validate();	
+	}
+	
+	public void newAdaptationOption(){
+		Element copy_element = all_options.get(showing);
+		root.addContent((Element) copy_element.clone());
+		showing = length;
+		length++;
+		all_options = doc.getRootElement().getChildren();
+		Element show_element = all_options.get(showing);
+		List <Element> all_elements = show_element.getChildren();
+		for (Element elt:all_elements) {
+			elt.setText("");
+		}
+		editAdaptationOption();
+	}
+	
 	// skip to the next
 	public void NEXT(){
 		
@@ -236,8 +332,30 @@ public class AdaptationOptionsFrame extends JFrame {
 		else if(showing==0) showing = length-1;
 		showAdaptationOption();
 	}
+	// allow the user to edit the entry
+	public void EDIT() {
+		System.out.println("editing");
+		editAdaptationOption();
+	}
+	
+	public void DONE() {
+		showAdaptationOption();
+	}
+	
+	public void SAVE(){
+		String fileName = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss'.xml'").format(new Date());
+		XMLOutputter xmlOutput = new XMLOutputter();
+		try {
+		xmlOutput.output(doc, new FileWriter("output" + "/" + root.getName() + "_" + fileName));
+		} catch (IOException io) {
+			System.out.println(io.getMessage());
+		  }
+		
+	}
+	
 	// this is called when the action event occurs on the "Close" button on the xml explorer
-	public void CLOSE(){
+	public void CLOSE() {
 		this.setVisible(false);
+		showAdaptationOption();
 	}
 }
