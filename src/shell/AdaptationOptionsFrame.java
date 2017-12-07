@@ -240,7 +240,7 @@ public class AdaptationOptionsFrame extends JFrame {
 		validate();	
 	}
 	// show the adaptation option so that the parameter values are editable
-	// method could
+	// a lot of repetition from showAdaptationOption()
 	public void editAdaptationOption(){
 		// 
 		aoContent.removeAll();
@@ -267,17 +267,16 @@ public class AdaptationOptionsFrame extends JFrame {
 			elt_value.setBackground(Color.WHITE);
 			aoPanel.add(elt_value);
 			
-			// action once the text has been edited
+			// action once the text has been edited, updates immediately upon click out of text field
 			elt_value.addFocusListener(
 				    new FocusListener() {
 				    	public void focusGained(FocusEvent e) {
 				    	}
 				        public void focusLost(FocusEvent e) {
-				            // THIS CODE IS EXECUTED WHEN RETURN IS TYPED
 				        	// elt_value.setText(elt_value.getText());	 // voterID is the JTextField
 				        	//list.setNameString(elt_value.getText()); // nameString is the stored datum
 				        	elt.setText(elt_value.getText());
-				        	System.out.println("New text: " + elt_value.getText());
+				        	//System.out.println("New text: " + elt_value.getText());
 				        }
 				    }
 				);
@@ -304,6 +303,8 @@ public class AdaptationOptionsFrame extends JFrame {
 		validate();	
 	}
 	
+	// adds a new adaptation option at the end of the list of options and
+	// immediately allows user input in fields
 	public void newAdaptationOption(){
 		Element copy_element = all_options.get(showing);
 		root.addContent((Element) copy_element.clone());
@@ -338,10 +339,12 @@ public class AdaptationOptionsFrame extends JFrame {
 		editAdaptationOption();
 	}
 	
+	// stop editing the option
 	public void DONE() {
 		showAdaptationOption();
 	}
 	
+	// save the XML file in the "output" folder with a unique time stamp
 	public void SAVE(){
 		String fileName = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss'.xml'").format(new Date());
 		XMLOutputter xmlOutput = new XMLOutputter();
@@ -356,6 +359,5 @@ public class AdaptationOptionsFrame extends JFrame {
 	// this is called when the action event occurs on the "Close" button on the xml explorer
 	public void CLOSE() {
 		this.setVisible(false);
-		showAdaptationOption();
 	}
 }
