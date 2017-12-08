@@ -1,0 +1,15 @@
+5
+very_dry
+dry
+normal
+wet 
+very_wet
+0
+5
+very_dry
+dry
+normal
+wet 
+very_wet
+0
+0
